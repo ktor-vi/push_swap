@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:57:16 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/11/09 09:57:19 by vphilipp         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:04:11 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,29 @@
 
 void	push(t_node **src, t_node **dest)
 {
-	t_node *temp;
-	
+	t_node	*temp;
+
 	temp = *src;
 	(*src) = (*src)->next;
 	if (dest == NULL || *dest == NULL)
 		temp->next = NULL;
 	else
+	{
 		temp->next = *dest;
+		temp->next->prev = temp;
+	}
+	temp->prev = NULL;
 	*dest = temp;
 }
 
-void pa(t_node **a, t_node **b)
+void	pa(t_node **a, t_node **b)
 {
-	push(b , a);
+	push(b, a);
 	write(1, "pa\n", 3);
 }
 
-void pb(t_node **a, t_node **b)
+void	pb(t_node **a, t_node **b)
 {
-	push(a , b);
+	push(a, b);
 	write(1, "pb\n", 3);
 }

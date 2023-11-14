@@ -63,8 +63,7 @@ void	prependnode(t_node **lst, t_node *new)
 		new->next = *lst;
 	}
 	*lst = new;
-	// new->prev = NULL;
-	// (*lst)->next = NULL;
+	(*lst)->prev = NULL;
 }
 
 int	lstlen(t_node *lst)

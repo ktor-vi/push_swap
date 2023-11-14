@@ -6,34 +6,40 @@
 /*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:11:02 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/11/08 18:12:35 by vphilipp         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:02:47 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
+void	free_err(char **s)
+{
+	int	k;
+
+	k = -1;
+	while (s[++k] != NULL)
+		free(s[k]);
+	free(s);
+	write(2, "Error\n", 6);
+	exit(0);
+}
+
 void	handle_numeric(char **s)
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
 	j = 0;
-	k = -1;
 	while (s[i] != NULL)
 	{
-		while (s[i][j])
+		if (invalid_number(s[i]))
+			free_err(s);
+		while (s[i][j] != '\0')
 		{
-			if (!c_is_numeric(*s[i]) || check_limit(s[i])
+			if (!c_is_numeric(s[i][j]) || check_limit(s[i])
 				|| ft_strlen(s[i]) >= 20)
-			{
-				while (s[k++] != NULL)
-					free(s[k]);
-				free(s);
-				write(2, "Error\n", 6);
-				exit(1);
-			}
+				free_err(s);
 			j++;
 		}
 		j = 0;
@@ -41,27 +47,28 @@ void	handle_numeric(char **s)
 	}
 }
 
+void	check_empty(char **s)
+{
+	if (!s[0])
+	{
+		exit(0);
+	}
+}
+
 void	handle_duplicates(char **s)
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
 	j = 1;
-	k = -1;
+	check_empty(s);
 	while (s[i] != NULL)
 	{
 		while (s[j] != NULL)
 		{
-			if (ft_strncmp(s[i], s[j], ft_strlen((const char *)s[i])) == 0)
-			{
-				while (s[k++] != NULL)
-					free(s[k]);
-				free(s);
-				write(2, "Error\n", 6);
-				exit(1);
-			}
+			if (strncmp(s[i], s[j], INT_MAX) == 0)
+				free_err(s);
 			j++;
 		}
 		i++;
@@ -91,8 +98,9 @@ t_node	*init_stack(int argc, char **argv, t_node *lst)
 	i = -1;
 	while (splitted[++i] != NULL)
 		appendnode(&lst, newnode(ft_atoi(splitted[i])));
-	while (splitted[k++] != NULL)
+	while (splitted[++k] != NULL)
 		free(splitted[k]);
 	free(splitted);
+	splitted = NULL;
 	return (lst);
 }

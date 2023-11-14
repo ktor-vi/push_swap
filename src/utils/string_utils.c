@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:11:47 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/11/08 18:11:49 by vphilipp         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:03:32 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*strjoin(char *s1, char *s2)
 
 int	c_is_numeric(char c)
 {
-	return (c >= '0' && c <= '9');
+	return ((c >= '0' && c <= '9') || c == '-');
 }
 
 int	check_limit(const char *str)
@@ -65,10 +65,31 @@ int	check_limit(const char *str)
 	if (!c_is_numeric(str[i]))
 		return (0);
 	while (str[i] >= '0' && str[i] <= '9')
-	{
 		result = result * 10 + (str[i++] - '0');
-		if (result > INT_MAX || result < INT_MIN)
+	result = result * sign;
+	if (result > INT_MAX || result < INT_MIN)
+		return (1);
+	else
+		return (0);
+}
+
+int	invalid_number(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == '-' && i != 0)
 			return (1);
+		if (s[i] == '-' && !(s[i + 1] >= '0' && s[i + 1] <= '9'))
+			return (1);
+		if ((s[i] == '0' && i == 0 && s[i + 1] != '\0') || (s[i] == '0' && s[i
+					- 1] == '-'))
+			return (1);
+		if (s[i] == '+')
+			return (1);
+		i++;
 	}
 	return (0);
 }
