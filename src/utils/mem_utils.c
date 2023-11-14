@@ -23,3 +23,26 @@ void	lstclear(t_node **lst)
 		free(tmp);
 	}
 }
+
+void	free_total(char *s) {
+	free(s);
+	write(2, "Error\n", 6);
+	exit(0);
+}
+
+void	free_err(char **s)
+{
+	int	k;
+
+	k = -1;
+	if (s || *s)
+	{
+	while (s[++k] != NULL)
+		free(s[k]);
+	free(s);
+	write(2, "Error\n", 6);
+	}
+	exit(0);
+}
+
+

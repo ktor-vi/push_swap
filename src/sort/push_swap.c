@@ -78,11 +78,18 @@ void	push_swap(t_node **a, t_node **b)
 	int	la;
 
 	i = 0;
-	fill_b(a, b);
+	la = lstlen(*a);
+	if(la == 5)
+		five_sort(a, b);
+	else
+		fill_b(a, b);
 	lb = lstlen(*b);
 	la = lstlen(*a);
 	if (la == 1)
+	{
+		lstclear(a);
 		return ;
+	}
 	tiny_sort(a);
 	while (i < lb)
 	{

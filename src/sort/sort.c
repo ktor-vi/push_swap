@@ -37,23 +37,23 @@ void	set_target(t_node **a, t_node **b)
 {
 	t_node	*tick_a;
 	t_node	*tick_b;
-	int		target_val;
+	long		target_val;
 
 	tick_b = *b;
 	while (tick_b)
 	{
-		target_val = INT_MAX;
+		target_val = LONG_MAX;
 		tick_a = *a;
 		while (tick_a)
 		{
 			if (tick_a->value > tick_b->value && tick_a->value < target_val)
 			{
-				target_val = tick_a->value;
+				target_val = (long)tick_a->value;
 				tick_b->target_node = tick_a;
 			}
 			tick_a = tick_a->next;
 		}
-		if (target_val == INT_MAX)
+		if (target_val == LONG_MAX)
 			tick_b->target_node = find_smallest(a);
 		tick_b = tick_b->next;
 	}
@@ -80,5 +80,28 @@ void	set_price(t_node **a, t_node **b)
 		else if (tick_b->above_median && !tick_b->target_node->above_median)
 			tick_b->price = (lb - tick_b->index) + tick_b->target_node->index;
 		tick_b = tick_b->next;
+	}
+}
+
+void	five_sort(t_node**a, t_node **b)
+{
+	while (lstlen(*a) > 3)
+	{
+		t_node *top;
+
+		index_list(*a);
+		index_list(*b);
+		set_median(*a);
+		set_median(*b);
+
+		top = find_smallest(a);
+		while ((*a)->value != top->value)
+		{
+				if (top->above_median)
+					rra(a);
+				else
+					ra(a);
+		}
+		pb(a, b);
 	}
 }

@@ -19,12 +19,18 @@ int	main(int argc, char **argv)
 
 	a = NULL;
 	b = NULL;
-	(void)argv;
 	if (argc == 1)
+	{
+		lstclear(&a);
 		return (0);
+	}
 	a = init_stack(argc, argv, a);
 	if (is_sorted(a))
+	{
+		lstclear(&a);
 		exit(0);
+	}
 	push_swap(&a, &b);
+	lstclear(&a);
 	return (0);
 }

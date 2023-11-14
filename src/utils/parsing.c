@@ -12,18 +12,6 @@
 
 #include "../includes/push_swap.h"
 
-void	free_err(char **s)
-{
-	int	k;
-
-	k = -1;
-	while (s[++k] != NULL)
-		free(s[k]);
-	free(s);
-	write(2, "Error\n", 6);
-	exit(0);
-}
-
 void	handle_numeric(char **s)
 {
 	int	i;
@@ -75,22 +63,34 @@ void	handle_duplicates(char **s)
 		j = i + 1;
 	}
 }
+char *total_cat(int argc, int i, char **argv)
+{
+	char	*total;
+
+	total = NULL;
+	while (++i < argc)
+	{
+		total = strjoin(total, argv[i]);
+		if(total == NULL)
+			free_total(total);
+		total = strjoin(total, " ");
+		if(total == NULL)
+			free_total(total);
+	}
+return (total);
+}
 
 t_node	*init_stack(int argc, char **argv, t_node *lst)
 {
 	int		i;
 	int		k;
-	char	*total;
 	char	**splitted;
+	char	*total;
 
-	total = NULL;
 	i = 0;
 	k = -1;
-	while (++i < argc)
-	{
-		total = strjoin(total, argv[i]);
-		total = strjoin(total, " ");
-	}
+
+	total = total_cat(argc, i, argv);
 	splitted = ft_split(total, ' ');
 	free(total);
 	handle_numeric(splitted);
@@ -101,6 +101,5 @@ t_node	*init_stack(int argc, char **argv, t_node *lst)
 	while (splitted[++k] != NULL)
 		free(splitted[k]);
 	free(splitted);
-	splitted = NULL;
 	return (lst);
 }

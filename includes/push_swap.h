@@ -44,6 +44,8 @@ int					ft_atoi(const char *str);
 int					c_is_numeric(char c);
 int					invalid_number(char *s);
 int					check_limit(const char *str);
+void 				free_total(char *s);
+void				free_err(char **s);
 
 // Moves
 void				swap(t_node **lst);
@@ -84,3 +86,4 @@ void				set_price(t_node **a, t_node **b);
 void				prepare_push(t_node **a, t_node **b, t_node *cheapest);
 t_node				*find_cheapest(t_node **b);
 void				push_swap(t_node **a, t_node **b);
+void	five_sort(t_node**a, t_node **b);

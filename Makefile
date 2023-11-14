@@ -34,6 +34,7 @@ $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR)
 	@cp $(LIBFT_DIR)/libft.a .
 	@$(CC) $(CFLAGS) $(OBJS) libft.a -o $@ 
+	@rm libft.a
 
 
 %.o: %.c
